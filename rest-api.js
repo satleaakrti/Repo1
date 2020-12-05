@@ -9,9 +9,9 @@ app.use(bodyParser.json());
 //create database connection
 const conn = mysql.createConnection({
   host: 'localhost',
-  user: 'sm7EIDupR8',
-  password: 'TtLgtCXzuw',
-  database: 'sm7EIDupR8'
+  user: 'root',
+  password: 'root',
+  database: 'restful_db'
 });
  
 //connect to database
@@ -21,8 +21,8 @@ conn.connect((err) =>{
 });
  
 //show all products
-app.get('/api/employee',(req, res) => {
-  let sql = "SELECT * FROM Employee";
+app.get('/api/products',(req, res) => {
+  let sql = "SELECT * FROM product";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -30,8 +30,8 @@ app.get('/api/employee',(req, res) => {
 });
  
 //show single product
-app.get('/api/employee/:id',(req, res) => {
-  let sql = "SELECT * FROM Employee WHERE Eid="+req.params.id;
+app.get('/api/products/:id',(req, res) => {
+  let sql = "SELECT * FROM product WHERE product_id="+req.params.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -39,9 +39,9 @@ app.get('/api/employee/:id',(req, res) => {
 });
  
 //add new product
-app.post('/api/employee',(req, res) => {
+app.post('/api/products',(req, res) => {
   let data = {product_name: req.body.product_name, product_price: req.body.product_price};
-  let sql = "INSERT INTO Employee SET ?";
+  let sql = "INSERT INTO product SET ?";
   let query = conn.query(sql, data,(err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -49,8 +49,8 @@ app.post('/api/employee',(req, res) => {
 });
  
 //update product
-app.put('/api/employee/:id',(req, res) => {
-  let sql = "UPDATE Employee SET Ename='"+req.body.Ename+"',Edes='"+req.body.Edes+"',Esalary='"+req.body.Esalary+"' WHERE Eid="+req.params.Eid;
+app.put('/api/products/:id',(req, res) => {
+  let sql = "UPDATE product SET product_name='"+req.body.product_name+"', product_price='"+req.body.product_price+"' WHERE product_id="+req.params.id;
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
     res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
@@ -58,8 +58,8 @@ app.put('/api/employee/:id',(req, res) => {
 });
  
 //Delete product
-app.delete('/api/employee/:id',(req, res) => {
-  let sql = "DELETE FROM Employee WHERE Eid="+req.params.Eid+"";
+app.delete('/api/products/:id',(req, res) => {
+  let sql = "DELETE FROM product WHERE product_id="+req.params.id+"";
   let query = conn.query(sql, (err, results) => {
     if(err) throw err;
       res.send(JSON.stringify({"status": 200, "error": null, "response": results}));
